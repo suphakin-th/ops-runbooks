@@ -1,0 +1,74 @@
+site_name: Suphakin's Ops Runbooks
+site_description: Personal incident logs, security audits, and operational runbooks for my homelab and projects.
+site_author: Suphakin Th.
+site_url: https://suphakin-th.github.io/ops-runbooks/
+
+repo_name: suphakin-th/ops-runbooks
+repo_url: https://github.com/suphakin-th/ops-runbooks
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - tags:
+      tags_file: tags.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - def_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/suphakin-th
+
+nav:
+  - Home: index.md
+  - Incidents:
+    - incidents/index.md
+    - "2026-06-04 · Pi Fan & Security Cleanup": incidents/2026-06-04-raspi-fan-security-cleanup.md
+  - Runbooks:
+    - runbooks/index.md
+  - Tags: tags.md
