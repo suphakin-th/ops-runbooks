@@ -1,0 +1,1577 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Personal incident logs, security audits, and operational runbooks for my homelab and projects.">
+      
+      
+        <meta name="author" content="Suphakin Th.">
+      
+      
+        <link rel="canonical" href="https://suphakin-th.github.io/ops-runbooks/incidents/2026-06-04-raspi-fan-security-cleanup/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../runbooks/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>2026-06-04 · Pi Fan & Security Cleanup - Suphakin's Ops Runbooks</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pi-fan-spinning-fast-security-audit" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Suphakin&#39;s Ops Runbooks" class="md-header__button md-logo" aria-label="Suphakin's Ops Runbooks" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Suphakin's Ops Runbooks
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2026-06-04 · Pi Fan & Security Cleanup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/suphakin-th/ops-runbooks" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    suphakin-th/ops-runbooks
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Incidents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../runbooks/" class="md-tabs__link">
+          
+  
+  
+  Runbooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Tags
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Suphakin&#39;s Ops Runbooks" class="md-nav__button md-logo" aria-label="Suphakin's Ops Runbooks" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Suphakin's Ops Runbooks
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/suphakin-th/ops-runbooks" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    suphakin-th/ops-runbooks
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Incidents
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Incidents
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Incidents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-06-04 · Pi Fan & Security Cleanup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-06-04 · Pi Fan & Security Cleanup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happened?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-npm-stuck-at-108-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause — npm stuck at 108% CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Root Cause — npm stuck at 108% CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-audit-what-else-was-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Audit — What else was found?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Audit — What else was found?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-state-before-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System state before fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Register
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Register">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#critical-anydesk-running-as-root-port-7071-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Critical — AnyDesk running as root, port 7071 open
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-no-firewall-ssh-open-with-no-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 High — No firewall, SSH open with no rate limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-no-auth-on-cloudflare-tunnel-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 Medium — No auth on Cloudflare Tunnel apps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-cloudflare-tunnel-token-visible-in-ps-aux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 Medium — Cloudflare Tunnel token visible in ps aux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#low-unnecessary-services-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 Low — Unnecessary services running
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#low-runaway-process-no-supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 Low — Runaway process, no supervision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-all-fixes-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of all fixes applied
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-open-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final open ports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cloudflare-free-tier-remaining-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloudflare free tier — remaining steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Runbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happened?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-npm-stuck-at-108-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause — npm stuck at 108% CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Root Cause — npm stuck at 108% CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-audit-what-else-was-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Audit — What else was found?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Audit — What else was found?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-state-before-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System state before fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Register
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Register">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#critical-anydesk-running-as-root-port-7071-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Critical — AnyDesk running as root, port 7071 open
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-no-firewall-ssh-open-with-no-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 High — No firewall, SSH open with no rate limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-no-auth-on-cloudflare-tunnel-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 Medium — No auth on Cloudflare Tunnel apps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-cloudflare-tunnel-token-visible-in-ps-aux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟠 Medium — Cloudflare Tunnel token visible in ps aux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#low-unnecessary-services-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 Low — Unnecessary services running
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#low-runaway-process-no-supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 Low — Runaway process, no supervision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-all-fixes-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of all fixes applied
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-open-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final open ports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cloudflare-free-tier-remaining-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloudflare free tier — remaining steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:cloudflare" class="md-tag">cloudflare</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:docker" class="md-tag">docker</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:linux" class="md-tag">linux</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:raspberry-pi" class="md-tag">raspberry-pi</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:security" class="md-tag">security</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:ufw" class="md-tag">ufw</a>
+      
+    
+  </nav>
+
+
+  
+  
+
+
+<h1 id="pi-fan-spinning-fast-security-audit">Pi Fan Spinning Fast + Security Audit</h1>
+<p><strong>Date:</strong> June 4, 2026<br />
+<strong>Device:</strong> Raspberry Pi 5<br />
+<strong>Uptime at time of incident:</strong> 45 days</p>
+<hr />
+<h2 id="what-happened">What happened?</h2>
+<p>The Pi's fan was going absolutely nuts — full speed, non-stop. Normally it ramps up and down, but this time it just wouldn't calm down.</p>
+<p>SSHed in and found the culprit pretty fast.</p>
+<hr />
+<h2 id="root-cause-npm-stuck-at-108-cpu">Root Cause — <code>npm</code> stuck at 108% CPU</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>USER         PID  %CPU  CMD
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>babylvoob 391038   108  npm
+</span></code></pre></div>
+<p>Some <code>npm</code> process (likely <code>npm run dev</code> / Next.js dev server) had been running since <strong>Jun 3 at 23:00</strong> and chewed through <strong>2 hours 43 minutes</strong> of solid CPU time. It was orphaned — launched via a <code>bash -s</code> shell parented directly to PID 1, meaning whoever started it had already disconnected and left it running unsupervised.</p>
+<p>Because of that one process:</p>
+<ul>
+<li>CPU temp hit <strong>64.8°C</strong> (Pi 5 fan starts around 50°C)</li>
+<li>Fan hit <strong>8,181 RPM</strong> 🌪️</li>
+<li>Load average climbed to 1.37</li>
+</ul>
+<p>The <code>next-server (v15.2.4)</code> on port 3000 was started at the same time — that survived and is still correctly serving the profile site. The <code>npm</code> process was just the compiler/watcher that got stuck.</p>
+<h3 id="fix">Fix</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span><span class="m">391038</span><span class="w">   </span><span class="c1"># the npm process itself</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">kill</span><span class="w"> </span><span class="m">391034</span><span class="w">      </span><span class="c1"># the orphaned bash parent</span>
+</span></code></pre></div>
+<p>Temp dropped from 64.8°C → 57.6°C within minutes. Fan calmed down.</p>
+<div class="admonition tip">
+<p class="admonition-title">Lesson learned</p>
+<p>Never run <code>npm run dev</code> in a bare shell you're about to close. Use <code>screen</code>, <code>tmux</code>, or <code>pm2</code> so it has a proper home. An orphaned dev process with no CPU cap will just spin forever.</p>
+</div>
+<hr />
+<h2 id="security-audit-what-else-was-found">Security Audit — What else was found?</h2>
+<p>While SSH was already open, did a full sweep.</p>
+<h3 id="system-state-before-fixes">System state before fixes</h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firewall</td>
+<td>❌ None installed</td>
+</tr>
+<tr>
+<td>Docker port binding</td>
+<td>❌ <code>0.0.0.0</code> (all interfaces)</td>
+</tr>
+<tr>
+<td>AnyDesk</td>
+<td>❌ Running as root on port 7071</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td>🟡 Default config, serving nothing</td>
+</tr>
+<tr>
+<td>SSH failed logins</td>
+<td>✅ Zero — clean logs</td>
+</tr>
+<tr>
+<td>Auth method</td>
+<td>✅ Public key only</td>
+</tr>
+<tr>
+<td>Docker containers</td>
+<td>✅ Healthy</td>
+</tr>
+<tr>
+<td>Disk usage</td>
+<td>✅ 70G / 235G (32%)</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>✅ 1.2Gi / 7.9Gi</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="risk-register">Risk Register</h2>
+<h3 id="critical-anydesk-running-as-root-port-7071-open">🔴 Critical — AnyDesk running as root, port 7071 open</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>anydesk  777  root  TCP *:7071 (LISTEN)
+</span></code></pre></div>
+<p>AnyDesk (remote desktop) was running as <code>root</code>, listening on all interfaces. No rate limiting, no auth wall before the daemon itself.</p>
+<p><strong>Impact:</strong> If AnyDesk had a protocol-level bug (it has had CVEs including auth bypasses), an attacker gets a root shell — no login screen needed. Pi already had three remote access methods (Cloudflare Tunnel, SSH, RPI Connect), so AnyDesk was pure unnecessary attack surface.</p>
+<p><strong>Fix:</strong> <code>sudo systemctl disable --now anydesk</code> — port 7071 closed.</p>
+<hr />
+<h3 id="high-no-firewall-ssh-open-with-no-rate-limiting">🔴 High — No firewall, SSH open with no rate limiting</h3>
+<p>UFW wasn't installed. SSH on port 22 was globally open with no connection limits. Bots scan for port 22 24/7 — unlimited brute-force attempts were possible.</p>
+<p>Auth logs were clean when checked, but that just means nobody had found it yet.</p>
+<p><strong>Fix:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ufw
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>deny<span class="w"> </span>incoming
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>outgoing
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="m">192</span>.168.0.0/24<span class="w">   </span><span class="c1"># full LAN access</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>limit<span class="w"> </span><span class="m">22</span>/tcp<span class="w">                </span><span class="c1"># max 6 attempts / 30 seconds</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
+</span></code></pre></div>
+<hr />
+<h3 id="high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare">🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>0.0.0.0:8080-&gt;8080/tcp   axon_app
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>0.0.0.0:8090-&gt;8090/tcp   axon_prod_app
+</span></code></pre></div>
+<p>Both app containers were reachable directly from anywhere on the network — bypassing Cloudflare WAF, rate limiting, and DDoS protection entirely.</p>
+<div class="admonition warning">
+<p class="admonition-title">Docker bypasses UFW</p>
+<p>Docker injects its own iptables rules and UFW won't block Docker-exposed ports even if you add a deny rule. The only reliable fix is binding to <code>127.0.0.1</code> in the compose file itself.</p>
+</div>
+<p><strong>Fix</strong> — edited both <code>/home/deploy/axon/docker-compose.yml</code> and <code>/home/deploy/axon-prod/docker-compose.yml</code>:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Before</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;${APP_PORT:-3000}:${APP_PORT:-3000}&quot;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># After</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;127.0.0.1:${APP_PORT:-3000}:${APP_PORT:-3000}&quot;</span>
+</span></code></pre></div>
+<p>Recreated containers with <code>docker compose up -d</code>. Brief ~10s downtime. Cloudflare Tunnel still works — <code>cloudflared</code> connects from <code>localhost</code>, which <code>127.0.0.1</code> allows.</p>
+<p>After:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>axon_app        127.0.0.1:8080-&gt;8080/tcp   Up (healthy)
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>axon_prod_app   127.0.0.1:8090-&gt;8090/tcp   Up (healthy)
+</span></code></pre></div>
+<hr />
+<h3 id="medium-no-auth-on-cloudflare-tunnel-apps">🟠 Medium — No auth on Cloudflare Tunnel apps</h3>
+<p>Anyone who knows the tunnel URL can reach the apps with zero login. The tunnel encrypts transport and hides the Pi's IP, but doesn't add authentication.</p>
+<p>Uptime Kuma's dashboard was fully public — exposes internal hostnames, service names, and health status.</p>
+<p><strong>Fix (to do in Cloudflare dashboard):</strong></p>
+<ol>
+<li>Go to <a href="https://one.dash.cloudflare.com">one.dash.cloudflare.com</a></li>
+<li><strong>Access → Applications → Add → Self-hosted</strong></li>
+<li>Add each tunnel hostname</li>
+<li>Policy: Allow, Identity → Emails → your email</li>
+<li>Login method: <strong>One-time PIN</strong> (free, no OAuth app needed)</li>
+</ol>
+<hr />
+<h3 id="medium-cloudflare-tunnel-token-visible-in-ps-aux">🟠 Medium — Cloudflare Tunnel token visible in <code>ps aux</code></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/usr/bin/cloudflared<span class="w"> </span>tunnel<span class="w"> </span>run<span class="w"> </span>--token<span class="w"> </span>eyJhIjoiNzkwMDA...
+</span></code></pre></div>
+<p>Token passed as a CLI argument shows up to any local user via <code>ps aux</code>. With the token, someone could connect their own cloudflared instance to your tunnel.</p>
+<p><strong>Proper fix (not done yet):</strong> Move token to <code>/etc/cloudflared/config.yml</code> with <code>600</code> permissions so it's not visible in the process list.</p>
+<hr />
+<h3 id="low-unnecessary-services-running">🟡 Low — Unnecessary services running</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>What it does</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nginx</code> (default)</td>
+<td>Served a 404 on port 80, no proxying</td>
+<td>Unnecessary open port</td>
+</tr>
+<tr>
+<td><code>cups</code> + <code>cups-browsed</code></td>
+<td>Print server</td>
+<td>Has had RCE CVEs (CVE-2024-47176 chain)</td>
+</tr>
+<tr>
+<td><code>ModemManager</code></td>
+<td>USB modem manager</td>
+<td>DBus-accessible, not needed</td>
+</tr>
+<tr>
+<td><code>triggerhappy</code></td>
+<td>Hardware hotkey daemon</td>
+<td>Runs as root</td>
+</tr>
+<tr>
+<td><code>colord</code></td>
+<td>Color profile manager</td>
+<td>DBus-accessible, not needed</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fix:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>--now<span class="w"> </span>nginx<span class="w"> </span>cups<span class="w"> </span>cups-browsed<span class="w"> </span>ModemManager<span class="w"> </span>triggerhappy<span class="w"> </span>triggerhappy.socket<span class="w"> </span>colord
+</span></code></pre></div>
+<hr />
+<h3 id="low-runaway-process-no-supervision">🟡 Low — Runaway process, no supervision</h3>
+<p>108% CPU for 2h43m unsupervised. Not a security issue but causes thermal stress and degrades production app performance. Pi 5 throttles at ~80°C; we were at 64.8°C — not dangerous, but continuous.</p>
+<hr />
+<h2 id="summary-of-all-fixes-applied">Summary of all fixes applied</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Severity</th>
+<th>Fixed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AnyDesk as root on port 7071</td>
+<td>🔴 Critical</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No firewall / SSH rate limiting</td>
+<td>🔴 High</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Docker ports on all interfaces</td>
+<td>🔴 High</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>No auth on Cloudflare Tunnel apps</td>
+<td>🟠 Medium</td>
+<td>⏳ Dashboard</td>
+</tr>
+<tr>
+<td>Tunnel token in <code>ps aux</code></td>
+<td>🟠 Medium</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Unnecessary services</td>
+<td>🟡 Low</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Runaway npm process</td>
+<td>🟡 Low</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="final-open-ports">Final open ports</h2>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Accessible from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>127.0.0.1:8080</code></td>
+<td>axon app (Docker)</td>
+<td>localhost only</td>
+</tr>
+<tr>
+<td><code>127.0.0.1:8090</code></td>
+<td>axon-prod (Docker)</td>
+<td>localhost only</td>
+</tr>
+<tr>
+<td><code>127.0.0.1:20241</code></td>
+<td>cloudflared metrics</td>
+<td>localhost only</td>
+</tr>
+<tr>
+<td><code>0.0.0.0:22</code></td>
+<td>SSH</td>
+<td>anywhere, rate-limited</td>
+</tr>
+<tr>
+<td><code>*:3000</code></td>
+<td>Next.js profile site</td>
+<td>LAN + Cloudflare Tunnel</td>
+</tr>
+<tr>
+<td><code>*:3001</code></td>
+<td>Uptime Kuma</td>
+<td>LAN + Cloudflare Tunnel</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cloudflare-free-tier-remaining-steps">Cloudflare free tier — remaining steps</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">1. Zero Trust Access</label><label for="__tabbed_1_2">2. SSH via browser</label><label for="__tabbed_1_3">3. Bot Fight Mode</label><label for="__tabbed_1_4">4. Harden SSL</label><label for="__tabbed_1_5">5. Security Level</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Protect all tunnel apps with an auth wall. Free for up to 50 users.</p>
+<ol>
+<li><a href="https://one.dash.cloudflare.com">one.dash.cloudflare.com</a> → <strong>Access → Applications → Add → Self-hosted</strong></li>
+<li>Set each tunnel hostname</li>
+<li>Policy: Allow by email, login method: One-time PIN</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<p>On the Pi:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cloudflared<span class="w"> </span>access<span class="w"> </span>ssh-gen<span class="w"> </span>--hostname<span class="w"> </span>ssh.babylvoob.org
+</span></code></pre></div>
+Dashboard: <strong>Access → Applications → Add → SSH</strong></p>
+<p>SSH config on any machine:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Host raspi-remote
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  HostName ssh.babylvoob.org
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  User babylvoob
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ProxyCommand cloudflared access ssh --hostname %h
+</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<p><strong>Security → Bots → Bot Fight Mode → ON</strong></p>
+<p>Blocks known scrapers and malicious bots for free.</p>
+</div>
+<div class="tabbed-block">
+<p><strong>SSL/TLS → Edge Certificates:</strong></p>
+<ul>
+<li>Always Use HTTPS → ON</li>
+<li>HSTS → Enable (<code>max-age=31536000</code>, include subdomains)</li>
+<li>Minimum TLS Version → TLS 1.2</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Security → Settings → Security Level → Medium</strong></p>
+<p>Challenges Tor exits and known attacker IPs with a CAPTCHA.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Incidents">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Incidents
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../runbooks/" class="md-footer__link md-footer__link--next" aria-label="Next: Runbooks">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Runbooks
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/suphakin-th" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
