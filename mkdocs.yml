@@ -1,7 +1,7 @@
 site_name: Suphakin's Ops Runbooks
 site_description: Personal incident logs, security audits, and operational runbooks for my homelab and projects.
 site_author: Suphakin Th.
-site_url: https://suphakin-th.github.io/ops-runbooks/
+site_url: https://suphakin-th.github.io/ops-runbooks
 
 repo_name: suphakin-th/ops-runbooks
 repo_url: https://github.com/suphakin-th/ops-runbooks

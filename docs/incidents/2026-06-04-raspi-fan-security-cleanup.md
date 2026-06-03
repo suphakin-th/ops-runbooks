@@ -28,8 +28,8 @@ SSHed in and found the culprit pretty fast.
 ## Root Cause — `npm` stuck at 108% CPU
 
 ```
-USER         PID  %CPU  CMD
-babylvoob 391038   108  npm
+USER   PID  %CPU  CMD
+***  391038   108  npm
 ```
 
 Some `npm` process (likely `npm run dev` / Next.js dev server) had been running since **Jun 3 at 23:00** and chewed through **2 hours 43 minutes** of solid CPU time. It was orphaned — launched via a `bash -s` shell parented directly to PID 1, meaning whoever started it had already disconnected and left it running unsupervised.
@@ -237,15 +237,15 @@ sudo systemctl disable --now nginx cups cups-browsed ModemManager triggerhappy t
 === "2. SSH via browser"
     On the Pi:
     ```bash
-    cloudflared access ssh-gen --hostname ssh.babylvoob.org
+    cloudflared access ssh-gen --hostname ssh.***.org
     ```
     Dashboard: **Access → Applications → Add → SSH**
 
     SSH config on any machine:
     ```
     Host raspi-remote
-      HostName ssh.babylvoob.org
-      User babylvoob
+      HostName ssh.***.org
+      User ***
       ProxyCommand cloudflared access ssh --hostname %h
     ```
 
