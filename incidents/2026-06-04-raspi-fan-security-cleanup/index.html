@@ -1144,8 +1144,8 @@
 <p>SSHed in and found the culprit pretty fast.</p>
 <hr />
 <h2 id="root-cause-npm-stuck-at-108-cpu">Root Cause — <code>npm</code> stuck at 108% CPU</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>USER         PID  %CPU  CMD
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>babylvoob 391038   108  npm
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>USER   PID  %CPU  CMD
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>***  391038   108  npm
 </span></code></pre></div>
 <p>Some <code>npm</code> process (likely <code>npm run dev</code> / Next.js dev server) had been running since <strong>Jun 3 at 23:00</strong> and chewed through <strong>2 hours 43 minutes</strong> of solid CPU time. It was orphaned — launched via a <code>bash -s</code> shell parented directly to PID 1, meaning whoever started it had already disconnected and left it running unsupervised.</p>
 <p>Because of that one process:</p>
@@ -1425,13 +1425,13 @@
 </div>
 <div class="tabbed-block">
 <p>On the Pi:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cloudflared<span class="w"> </span>access<span class="w"> </span>ssh-gen<span class="w"> </span>--hostname<span class="w"> </span>ssh.babylvoob.org
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cloudflared<span class="w"> </span>access<span class="w"> </span>ssh-gen<span class="w"> </span>--hostname<span class="w"> </span>ssh.***.org
 </span></code></pre></div>
 Dashboard: <strong>Access → Applications → Add → SSH</strong></p>
 <p>SSH config on any machine:
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Host raspi-remote
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  HostName ssh.babylvoob.org
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  User babylvoob
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  HostName ssh.***.org
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  User ***
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ProxyCommand cloudflared access ssh --hostname %h
 </span></code></pre></div></p>
 </div>
