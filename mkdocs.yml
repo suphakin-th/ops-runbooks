@@ -68,6 +68,7 @@ nav:
   - Home: index.md
   - Incidents:
     - incidents/index.md
+    - "2026-08-19 · AMD NPU Hardware Dead End": incidents/2026-08-19-ryzen-npu-llm-dead-end.md
     - "2026-06-04 · Pi Fan & Security Cleanup": incidents/2026-06-04-raspi-fan-security-cleanup.md
   - Runbooks:
     - runbooks/index.md
