@@ -12,13 +12,13 @@
         <meta name="author" content="Suphakin Th.">
       
       
-        <link rel="canonical" href="https://suphakin-th.github.io/ops-runbooks/incidents/2026-06-04-raspi-fan-security-cleanup/">
+        <link rel="canonical" href="https://suphakin-th.github.io/ops-runbooks/incidents/2026-08-19-ryzen-npu-llm-dead-end/">
       
       
-        <link rel="prev" href="../2026-08-19-ryzen-npu-llm-dead-end/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../runbooks/">
+        <link rel="next" href="../2026-06-04-raspi-fan-security-cleanup/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>2026-06-04 · Pi Fan & Security Cleanup - Suphakin's Ops Runbooks</title>
+        <title>2026-08-19 · AMD NPU Hardware Dead End - Suphakin's Ops Runbooks</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pi-fan-spinning-fast-security-audit" class="md-skip">
+        <a href="#amd-npu-wont-run-llms-a-full-day-chasing-a-hardware-generation-wall" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2026-06-04 · Pi Fan & Security Cleanup
+              2026-08-19 · AMD NPU Hardware Dead End
             
           </span>
         </div>
@@ -462,34 +462,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../2026-08-19-ryzen-npu-llm-dead-end/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026-08-19 · AMD NPU Hardware Dead End
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -509,7 +481,7 @@
   <span class="md-ellipsis">
     
   
-    2026-06-04 · Pi Fan & Security Cleanup
+    2026-08-19 · AMD NPU Hardware Dead End
   
 
     
@@ -527,7 +499,7 @@
   <span class="md-ellipsis">
     
   
-    2026-06-04 · Pi Fan & Security Cleanup
+    2026-08-19 · AMD NPU Hardware Dead End
   
 
     
@@ -564,16 +536,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#root-cause-npm-stuck-at-108-cpu" class="md-nav__link">
+  <a href="#root-cause-three-dead-ends-then-a-hardware-ceiling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Root Cause — npm stuck at 108% CPU
+        Root Cause — three dead ends, then a hardware ceiling
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Root Cause — npm stuck at 108% CPU">
+    <nav class="md-nav" aria-label="Root Cause — three dead ends, then a hardware ceiling">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-1-lemonade-sdk-requires-xdna2-this-chip-has-xdna1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 1 — Lemonade SDK requires XDNA2, this chip has XDNA1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-2-not-a-copilot-pc-either" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 2 — Not a Copilot+ PC either
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-3-amds-own-ryzen-ai-software-installs-then-hits-a-missing-firmware-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 3 — AMD's own Ryzen AI Software installs, then hits a missing firmware file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-real-answer-found-in-amds-own-release-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The real answer, found in AMD's own release notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-quest-the-conda-not-found-path-nightmare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side quest — the "Conda not found" PATH nightmare
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#fix" class="md-nav__link">
@@ -592,22 +619,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security-audit-what-else-was-found" class="md-nav__link">
+  <a href="#risk-assessment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Audit — What else was found?
+        Risk Assessment
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Security Audit — What else was found?">
+    <nav class="md-nav" aria-label="Risk Assessment">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#system-state-before-fixes" class="md-nav__link">
+  <a href="#low-no-security-or-data-exposure-just-time-cost" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System state before fixes
+        🟡 Low — No security or data exposure, just time cost
       
     </span>
   </a>
@@ -620,104 +647,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#risk-register" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Risk Register
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Risk Register">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#critical-anydesk-running-as-root-port-7071-open" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 Critical — AnyDesk running as root, port 7071 open
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-no-firewall-ssh-open-with-no-rate-limiting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 High — No firewall, SSH open with no rate limiting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-no-auth-on-cloudflare-tunnel-apps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟠 Medium — No auth on Cloudflare Tunnel apps
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-cloudflare-tunnel-token-visible-in-ps-aux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟠 Medium — Cloudflare Tunnel token visible in ps aux
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#low-unnecessary-services-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟡 Low — Unnecessary services running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#low-runaway-process-no-supervision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟡 Low — Runaway process, no supervision
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary-of-all-fixes-applied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary of all fixes applied
+        Summary
       
     </span>
   </a>
@@ -725,10 +658,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#final-open-ports" class="md-nav__link">
+  <a href="#cleanup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Final open ports
+        Cleanup
       
     </span>
   </a>
@@ -736,10 +669,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cloudflare-free-tier-remaining-steps" class="md-nav__link">
+  <a href="#timeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cloudflare free tier — remaining steps
+        Timeline
       
     </span>
   </a>
@@ -750,6 +683,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2026-06-04-raspi-fan-security-cleanup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-06-04 · Pi Fan & Security Cleanup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -914,16 +875,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#root-cause-npm-stuck-at-108-cpu" class="md-nav__link">
+  <a href="#root-cause-three-dead-ends-then-a-hardware-ceiling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Root Cause — npm stuck at 108% CPU
+        Root Cause — three dead ends, then a hardware ceiling
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Root Cause — npm stuck at 108% CPU">
+    <nav class="md-nav" aria-label="Root Cause — three dead ends, then a hardware ceiling">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-1-lemonade-sdk-requires-xdna2-this-chip-has-xdna1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 1 — Lemonade SDK requires XDNA2, this chip has XDNA1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-2-not-a-copilot-pc-either" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 2 — Not a Copilot+ PC either
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dead-end-3-amds-own-ryzen-ai-software-installs-then-hits-a-missing-firmware-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dead end 3 — AMD's own Ryzen AI Software installs, then hits a missing firmware file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-real-answer-found-in-amds-own-release-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The real answer, found in AMD's own release notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-quest-the-conda-not-found-path-nightmare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side quest — the "Conda not found" PATH nightmare
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#fix" class="md-nav__link">
@@ -942,22 +958,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security-audit-what-else-was-found" class="md-nav__link">
+  <a href="#risk-assessment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Audit — What else was found?
+        Risk Assessment
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Security Audit — What else was found?">
+    <nav class="md-nav" aria-label="Risk Assessment">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#system-state-before-fixes" class="md-nav__link">
+  <a href="#low-no-security-or-data-exposure-just-time-cost" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System state before fixes
+        🟡 Low — No security or data exposure, just time cost
       
     </span>
   </a>
@@ -970,104 +986,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#risk-register" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Risk Register
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Risk Register">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#critical-anydesk-running-as-root-port-7071-open" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 Critical — AnyDesk running as root, port 7071 open
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-no-firewall-ssh-open-with-no-rate-limiting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 High — No firewall, SSH open with no rate limiting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-no-auth-on-cloudflare-tunnel-apps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟠 Medium — No auth on Cloudflare Tunnel apps
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-cloudflare-tunnel-token-visible-in-ps-aux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟠 Medium — Cloudflare Tunnel token visible in ps aux
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#low-unnecessary-services-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟡 Low — Unnecessary services running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#low-runaway-process-no-supervision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🟡 Low — Runaway process, no supervision
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary-of-all-fixes-applied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary of all fixes applied
+        Summary
       
     </span>
   </a>
@@ -1075,10 +997,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#final-open-ports" class="md-nav__link">
+  <a href="#cleanup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Final open ports
+        Cleanup
       
     </span>
   </a>
@@ -1086,10 +1008,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cloudflare-free-tier-remaining-steps" class="md-nav__link">
+  <a href="#timeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cloudflare free tier — remaining steps
+        Timeline
       
     </span>
   </a>
@@ -1117,42 +1039,35 @@
       
       
       
-        <a href="../../tags/#tag:cloudflare" class="md-tag">cloudflare</a>
+        <a href="../../tags/#tag:ai" class="md-tag">ai</a>
       
     
       
       
       
       
-        <a href="../../tags/#tag:docker" class="md-tag">docker</a>
+        <a href="../../tags/#tag:amd" class="md-tag">amd</a>
       
     
       
       
       
       
-        <a href="../../tags/#tag:linux" class="md-tag">linux</a>
+        <a href="../../tags/#tag:hardware" class="md-tag">hardware</a>
       
     
       
       
       
       
-        <a href="../../tags/#tag:raspberry-pi" class="md-tag">raspberry-pi</a>
+        <a href="../../tags/#tag:ollama" class="md-tag">ollama</a>
       
     
       
       
       
       
-        <a href="../../tags/#tag:security" class="md-tag">security</a>
-      
-    
-      
-      
-      
-      
-        <a href="../../tags/#tag:ufw" class="md-tag">ufw</a>
+        <a href="../../tags/#tag:windows" class="md-tag">windows</a>
       
     
   </nav>
@@ -1162,194 +1077,133 @@
   
 
 
-<h1 id="pi-fan-spinning-fast-security-audit">Pi Fan Spinning Fast + Security Audit</h1>
-<p><strong>Date:</strong> June 4, 2026<br />
-<strong>Device:</strong> Raspberry Pi 5<br />
-<strong>Uptime at time of incident:</strong> 45 days</p>
+<h1 id="amd-npu-wont-run-llms-a-full-day-chasing-a-hardware-generation-wall">AMD NPU Won't Run LLMs — A Full Day Chasing a Hardware-Generation Wall</h1>
+<p><strong>Date:</strong> August 19, 2026<br />
+<strong>Device:</strong> ASUS Vivobook S14 (AMD Ryzen 7 260, Hawk Point / XDNA1 NPU)<br />
+<strong>Severity:</strong> 🟡 Low (no data/security impact — just a lot of wasted setup time)</p>
 <hr />
 <h2 id="what-happened">What happened?</h2>
-<p>The Pi's fan was going absolutely nuts — full speed, non-stop. Normally it ramps up and down, but this time it just wouldn't calm down.</p>
-<p>SSHed in and found the culprit pretty fast.</p>
+<p>Started the day setting up a local LLM pipeline (<code>news_prefilter.py</code>) to summarize
+AI-bubble/market-crash headlines on-device before feeding them into the JARVIS
+morning brief — using Ollama on the laptop's integrated GPU (Radeon 780M). That
+part worked cleanly: <code>OLLAMA_IGPU_ENABLE=1</code> was needed to stop Ollama from
+silently dropping the iGPU and falling back to CPU (it detects Vulkan support but
+disables it by default for integrated GPUs), and once set, <code>ollama ps</code> confirmed
+<code>100% GPU</code>.</p>
+<p>Then came the follow-up question: <em>this laptop also has a dedicated NPU sitting
+right next to the CPU — can that run the LLM instead, to free up the GPU or save
+power?</em></p>
+<p>What followed was a full afternoon of chasing that NPU down three different
+toolchains, each one dying for a different reason, ending in a PATH-propagation
+nightmare that needed two full system restarts — only to discover at the very end
+that the answer was "no" from the start, baked into AMD's own software stack, not
+fixable by more config.</p>
 <hr />
-<h2 id="root-cause-npm-stuck-at-108-cpu">Root Cause — <code>npm</code> stuck at 108% CPU</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>USER   PID  %CPU  CMD
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>***  391038   108  npm
-</span></code></pre></div>
-<p>Some <code>npm</code> process (likely <code>npm run dev</code> / Next.js dev server) had been running since <strong>Jun 3 at 23:00</strong> and chewed through <strong>2 hours 43 minutes</strong> of solid CPU time. It was orphaned — launched via a <code>bash -s</code> shell parented directly to PID 1, meaning whoever started it had already disconnected and left it running unsupervised.</p>
-<p>Because of that one process:</p>
+<h2 id="root-cause-three-dead-ends-then-a-hardware-ceiling">Root Cause — three dead ends, then a hardware ceiling</h2>
+<h3 id="dead-end-1-lemonade-sdk-requires-xdna2-this-chip-has-xdna1">Dead end 1 — Lemonade SDK requires XDNA2, this chip has XDNA1</h3>
+<p>Lemonade (AMD's Ollama-style NPU server) and FastFlowLM both hard-require an
+XDNA2 NPU — that's the Ryzen AI 300/400-series and Strix Halo. The Ryzen 7 260 is
+<strong>Hawk Point</strong>, a Zen 4 refresh chip with the older <strong>XDNA1</strong> NPU (16 TOPS).
+AMD's own docs list Ryzen AI 7000/8000/<strong>200-series</strong> as explicitly unsupported
+for this toolchain. Confirmed via Lemonade's own compatibility page — no
+ambiguity, no workaround.</p>
+<h3 id="dead-end-2-not-a-copilot-pc-either">Dead end 2 — Not a Copilot+ PC either</h3>
+<p>Windows Copilot+ PC features (on-device Phi Silica, etc.) require a <strong>40+ TOPS</strong>
+NPU. This chip has 16 TOPS. Not close enough to qualify for any of the
+NPU-accelerated Windows system APIs either.</p>
+<h3 id="dead-end-3-amds-own-ryzen-ai-software-installs-then-hits-a-missing-firmware-file">Dead end 3 — AMD's own Ryzen AI Software installs, then hits a missing firmware file</h3>
+<p>Ryzen AI Software 1.8.0 (the official ONNX Runtime VitisAI EP toolchain) does
+list Hawk Point as a supported chip, so this looked like the real path. Full
+install:</p>
 <ul>
-<li>CPU temp hit <strong>64.8°C</strong> (Pi 5 fan starts around 50°C)</li>
-<li>Fan hit <strong>8,181 RPM</strong> 🌪️</li>
-<li>Load average climbed to 1.37</li>
+<li>Visual Studio 2022 (C++ desktop workload), CMake, Miniforge — all via <code>winget</code></li>
+<li>NPU driver — already had <code>32.0.203.314</code>, above the <code>32.0.203.280</code> minimum</li>
+<li><code>ryzen-ai-1.8.0.exe</code> (3.5GB) — required a manual login at <code>account.amd.com</code>
+  to download; account/login actions are something I don't do on the user's
+  behalf, so this step waited for them</li>
 </ul>
-<p>The <code>next-server (v15.2.4)</code> on port 3000 was started at the same time — that survived and is still correctly serving the profile site. The <code>npm</code> process was just the compiler/watcher that got stuck.</p>
-<h3 id="fix">Fix</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span><span class="m">391038</span><span class="w">   </span><span class="c1"># the npm process itself</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">kill</span><span class="w"> </span><span class="m">391034</span><span class="w">      </span><span class="c1"># the orphaned bash parent</span>
+<p>Installer kept failing at the conda check:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Conda not found. Please install conda...
 </span></code></pre></div>
-<p>Temp dropped from 64.8°C → 57.6°C within minutes. Fan calmed down.</p>
-<div class="admonition tip">
-<p class="admonition-title">Lesson learned</p>
-<p>Never run <code>npm run dev</code> in a bare shell you're about to close. Use <code>screen</code>, <code>tmux</code>, or <code>pm2</code> so it has a proper home. An orphaned dev process with no CPU cap will just spin forever.</p>
-</div>
+<p>...even after Miniforge was installed and <code>conda --version</code> worked fine in a
+terminal. This turned into its own multi-round debugging chase (see below).
+Once past that, the installer actually finished cleanly: conda env created,
+VitisAI EP wheel installed, ONNX Runtime GenAI DirectML wheel installed, all
+exit code 0.</p>
+<p>Ran the official <code>quicktest.py</code> to verify NPU inference. It printed
+<code>Test Finished</code> — but the log was full of:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>E: xclbin_fingerprint.cpp:71 Failed to open xclbin
+</span></code></pre></div>
+<p><code>.xclbin</code> is the NPU firmware/bitstream file the runtime needs to actually talk
+to the hardware. Checked the install directory:
+<code>voe-4.0-win_amd64\xclbins\phoenix\</code> — the folder existed, but was <strong>empty</strong>.
+The <code>4x4.xclbin</code> file for Phoenix/Hawk Point was simply missing from the
+installer package. Web search turned up other users hitting the same empty
+<code>phoenix</code> xclbin folder — a known AMD packaging gap, not something wrong with
+this machine.</p>
+<h3 id="the-real-answer-found-in-amds-own-release-notes">The real answer, found in AMD's own release notes</h3>
+<p>Even setting the missing xclbin aside, AMD's Ryzen AI Software 1.8.0 release
+notes state plainly: <strong>Phoenix/Hawk Point (XDNA1) only supports CNN INT8
+models.</strong> LLM and BF16 workloads are restricted to the newer Strix/Krackan
+Point (XDNA2) chips. This NPU generation was built for lightweight always-on
+CNN inference — background webcam effects, not language models — and that's
+enforced in AMD's software stack itself, not something a driver update or
+config flag changes.</p>
+<p><strong>Bottom line: this NPU cannot run LLM inference right now, full stop.</strong> Not a
+setup mistake, not a missing package — a hardware-generation limit.</p>
 <hr />
-<h2 id="security-audit-what-else-was-found">Security Audit — What else was found?</h2>
-<p>While SSH was already open, did a full sweep.</p>
-<h3 id="system-state-before-fixes">System state before fixes</h3>
-<table>
-<thead>
-<tr>
-<th>Check</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Firewall</td>
-<td>❌ None installed</td>
-</tr>
-<tr>
-<td>Docker port binding</td>
-<td>❌ <code>0.0.0.0</code> (all interfaces)</td>
-</tr>
-<tr>
-<td>AnyDesk</td>
-<td>❌ Running as root on port 7071</td>
-</tr>
-<tr>
-<td>Nginx</td>
-<td>🟡 Default config, serving nothing</td>
-</tr>
-<tr>
-<td>SSH failed logins</td>
-<td>✅ Zero — clean logs</td>
-</tr>
-<tr>
-<td>Auth method</td>
-<td>✅ Public key only</td>
-</tr>
-<tr>
-<td>Docker containers</td>
-<td>✅ Healthy</td>
-</tr>
-<tr>
-<td>Disk usage</td>
-<td>✅ 70G / 235G (32%)</td>
-</tr>
-<tr>
-<td>Memory</td>
-<td>✅ 1.2Gi / 7.9Gi</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="risk-register">Risk Register</h2>
-<h3 id="critical-anydesk-running-as-root-port-7071-open">🔴 Critical — AnyDesk running as root, port 7071 open</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>anydesk  777  root  TCP *:7071 (LISTEN)
-</span></code></pre></div>
-<p>AnyDesk (remote desktop) was running as <code>root</code>, listening on all interfaces. No rate limiting, no auth wall before the daemon itself.</p>
-<p><strong>Impact:</strong> If AnyDesk had a protocol-level bug (it has had CVEs including auth bypasses), an attacker gets a root shell — no login screen needed. Pi already had three remote access methods (Cloudflare Tunnel, SSH, RPI Connect), so AnyDesk was pure unnecessary attack surface.</p>
-<p><strong>Fix:</strong> <code>sudo systemctl disable --now anydesk</code> — port 7071 closed.</p>
-<hr />
-<h3 id="high-no-firewall-ssh-open-with-no-rate-limiting">🔴 High — No firewall, SSH open with no rate limiting</h3>
-<p>UFW wasn't installed. SSH on port 22 was globally open with no connection limits. Bots scan for port 22 24/7 — unlimited brute-force attempts were possible.</p>
-<p>Auth logs were clean when checked, but that just means nobody had found it yet.</p>
-<p><strong>Fix:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ufw
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>deny<span class="w"> </span>incoming
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>outgoing
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="m">192</span>.168.0.0/24<span class="w">   </span><span class="c1"># full LAN access</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>limit<span class="w"> </span><span class="m">22</span>/tcp<span class="w">                </span><span class="c1"># max 6 attempts / 30 seconds</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
-</span></code></pre></div>
-<hr />
-<h3 id="high-docker-ports-exposed-on-all-interfaces-bypassing-cloudflare">🔴 High — Docker ports exposed on all interfaces, bypassing Cloudflare</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>0.0.0.0:8080-&gt;8080/tcp   axon_app
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>0.0.0.0:8090-&gt;8090/tcp   axon_prod_app
-</span></code></pre></div>
-<p>Both app containers were reachable directly from anywhere on the network — bypassing Cloudflare WAF, rate limiting, and DDoS protection entirely.</p>
-<div class="admonition warning">
-<p class="admonition-title">Docker bypasses UFW</p>
-<p>Docker injects its own iptables rules and UFW won't block Docker-exposed ports even if you add a deny rule. The only reliable fix is binding to <code>127.0.0.1</code> in the compose file itself.</p>
-</div>
-<p><strong>Fix</strong> — edited both <code>/home/deploy/axon/docker-compose.yml</code> and <code>/home/deploy/axon-prod/docker-compose.yml</code>:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Before</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${APP_PORT:-3000}:${APP_PORT:-3000}"</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># After</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"127.0.0.1:${APP_PORT:-3000}:${APP_PORT:-3000}"</span>
-</span></code></pre></div>
-<p>Recreated containers with <code>docker compose up -d</code>. Brief ~10s downtime. Cloudflare Tunnel still works — <code>cloudflared</code> connects from <code>localhost</code>, which <code>127.0.0.1</code> allows.</p>
-<p>After:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>axon_app        127.0.0.1:8080-&gt;8080/tcp   Up (healthy)
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>axon_prod_app   127.0.0.1:8090-&gt;8090/tcp   Up (healthy)
-</span></code></pre></div>
-<hr />
-<h3 id="medium-no-auth-on-cloudflare-tunnel-apps">🟠 Medium — No auth on Cloudflare Tunnel apps</h3>
-<p>Anyone who knows the tunnel URL can reach the apps with zero login. The tunnel encrypts transport and hides the Pi's IP, but doesn't add authentication.</p>
-<p>Uptime Kuma's dashboard was fully public — exposes internal hostnames, service names, and health status.</p>
-<p><strong>Fix (to do in Cloudflare dashboard):</strong></p>
+<h3 id="side-quest-the-conda-not-found-path-nightmare">Side quest — the "Conda not found" PATH nightmare</h3>
+<p>Worth its own writeup because it burned the most wall-clock time and had a
+genuinely non-obvious cause.</p>
+<p><code>conda --version</code> worked fine in every terminal tested. The installer still
+couldn't find it. Root cause, found step by step:</p>
 <ol>
-<li>Go to <a href="https://one.dash.cloudflare.com">one.dash.cloudflare.com</a></li>
-<li><strong>Access → Applications → Add → Self-hosted</strong></li>
-<li>Add each tunnel hostname</li>
-<li>Policy: Allow, Identity → Emails → your email</li>
-<li>Login method: <strong>One-time PIN</strong> (free, no OAuth app needed)</li>
+<li><code>winget install CondaForge.Miniforge3</code> had installed to
+   <code>C:\Users\jadek\miniforge3</code> — but an earlier, older Miniforge install already
+   existed at a <em>different</em> path, and the first PATH edit pointed at the wrong
+   (non-existent) <code>AppData\Local\miniforge3</code> location. Fixed by pointing PATH
+   at the real install dir.</li>
+<li>Even after fixing the User PATH, the installer (run <strong>as administrator</strong>)
+   still failed. Elevated processes on Windows read from <strong>System (Machine)
+   PATH</strong>, not User PATH — and <code>[Environment]::SetEnvironmentVariable(...,
+   "Machine")</code> requires admin rights the automation shell didn't have. Had to
+   walk through <code>sysdm.cpl</code> → Advanced → Environment Variables → System
+   variables → add the three conda paths manually.</li>
+<li>Windows does not propagate PATH changes to already-running processes
+   automatically — not <code>explorer.exe</code>, not <code>cmd.exe</code> subprocesses spawned from
+   an existing session, nothing already alive at the time of the registry
+   write. Restarting <code>explorer.exe</code> alone wasn't enough, since the shell that
+   launched the installer was itself a descendant of a long-running parent
+   process. Only a <strong>full system restart</strong> — twice, since the first didn't
+   fully take for every process chain — got every process to read the updated
+   System PATH.</li>
 </ol>
-<hr />
-<h3 id="medium-cloudflare-tunnel-token-visible-in-ps-aux">🟠 Medium — Cloudflare Tunnel token visible in <code>ps aux</code></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/usr/bin/cloudflared<span class="w"> </span>tunnel<span class="w"> </span>run<span class="w"> </span>--token<span class="w"> </span>eyJhIjoiNzkwMDA...
-</span></code></pre></div>
-<p>Token passed as a CLI argument shows up to any local user via <code>ps aux</code>. With the token, someone could connect their own cloudflared instance to your tunnel.</p>
-<p><strong>Proper fix (not done yet):</strong> Move token to <code>/etc/cloudflared/config.yml</code> with <code>600</code> permissions so it's not visible in the process list.</p>
-<hr />
-<h3 id="low-unnecessary-services-running">🟡 Low — Unnecessary services running</h3>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>What it does</th>
-<th>Risk</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>nginx</code> (default)</td>
-<td>Served a 404 on port 80, no proxying</td>
-<td>Unnecessary open port</td>
-</tr>
-<tr>
-<td><code>cups</code> + <code>cups-browsed</code></td>
-<td>Print server</td>
-<td>Has had RCE CVEs (CVE-2024-47176 chain)</td>
-</tr>
-<tr>
-<td><code>ModemManager</code></td>
-<td>USB modem manager</td>
-<td>DBus-accessible, not needed</td>
-</tr>
-<tr>
-<td><code>triggerhappy</code></td>
-<td>Hardware hotkey daemon</td>
-<td>Runs as root</td>
-</tr>
-<tr>
-<td><code>colord</code></td>
-<td>Color profile manager</td>
-<td>DBus-accessible, not needed</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Fix:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>--now<span class="w"> </span>nginx<span class="w"> </span>cups<span class="w"> </span>cups-browsed<span class="w"> </span>ModemManager<span class="w"> </span>triggerhappy<span class="w"> </span>triggerhappy.socket<span class="w"> </span>colord
+<p>Lesson: when an installer says "X not found" right after X was just installed,
+check <em>which</em> PATH scope (user vs. system) and <em>which process generation</em> is
+actually being consulted before assuming the install itself is broken.</p>
+<h3 id="fix">Fix</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># The actual System PATH fix (via sysdm.cpl GUI, not scriptable without admin):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c">#   Advanced System Settings &gt; Environment Variables &gt; System variables &gt; Path</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c">#   Add: C:\Users\jadek\miniforge3\condabin</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c">#        C:\Users\jadek\miniforge3\Scripts</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c">#        C:\Users\jadek\miniforge3</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c"># Then: full restart (not just explorer.exe restart) for it to fully propagate.</span>
 </span></code></pre></div>
 <hr />
-<h3 id="low-runaway-process-no-supervision">🟡 Low — Runaway process, no supervision</h3>
-<p>108% CPU for 2h43m unsupervised. Not a security issue but causes thermal stress and degrades production app performance. Pi 5 throttles at ~80°C; we were at 64.8°C — not dangerous, but continuous.</p>
+<h2 id="risk-assessment">Risk Assessment</h2>
+<h3 id="low-no-security-or-data-exposure-just-time-cost">🟡 Low — No security or data exposure, just time cost</h3>
+<p>Nothing here touched sensitive data or opened any attack surface — this was a
+pure feasibility investigation. The "risk" was entirely about time: roughly a
+full afternoon spent on prerequisite installs, two PATH-driven system restarts,
+and a 3.5GB+6GB install cycle, all for a conclusion that was knowable from
+AMD's public spec sheet before any of it started (16 TOPS NPU, no LLM support
+in the software stack for this chip generation).</p>
+<p><strong>Fix:</strong> for future hardware-capability questions, check the vendor's official
+supported-workload matrix for the exact chip <em>before</em> installing anything —
+Hawk Point's "CNN INT8 only" restriction was documented in AMD's own release
+notes the whole time.</p>
 <hr />
-<h2 id="summary-of-all-fixes-applied">Summary of all fixes applied</h2>
+<h2 id="summary">Summary</h2>
 <table>
 <thead>
 <tr>
@@ -1360,127 +1214,121 @@
 </thead>
 <tbody>
 <tr>
-<td>AnyDesk as root on port 7071</td>
-<td>🔴 Critical</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>No firewall / SSH rate limiting</td>
-<td>🔴 High</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>Docker ports on all interfaces</td>
-<td>🔴 High</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>No auth on Cloudflare Tunnel apps</td>
-<td>🟠 Medium</td>
-<td>⏳ Dashboard</td>
-</tr>
-<tr>
-<td>Tunnel token in <code>ps aux</code></td>
-<td>🟠 Medium</td>
-<td>❌</td>
-</tr>
-<tr>
-<td>Unnecessary services</td>
+<td>Lemonade SDK requires XDNA2, chip has XDNA1</td>
 <td>🟡 Low</td>
-<td>✅</td>
+<td>❌ Hardware limit, not fixable</td>
 </tr>
 <tr>
-<td>Runaway npm process</td>
+<td>Not Copilot+ PC eligible (16 vs 40+ TOPS)</td>
 <td>🟡 Low</td>
-<td>✅</td>
+<td>❌ Hardware limit, not fixable</td>
+</tr>
+<tr>
+<td>Ryzen AI installer "Conda not found" despite conda working</td>
+<td>🟡 Low</td>
+<td>✅ System PATH + full restart</td>
+</tr>
+<tr>
+<td>Missing <code>4x4.xclbin</code> firmware file in installer package</td>
+<td>🟡 Low</td>
+<td>⏳ Known AMD packaging gap, not fixed (moot — see below)</td>
+</tr>
+<tr>
+<td>Hawk Point (XDNA1) has no LLM support in Ryzen AI 1.8.0 software stack</td>
+<td>🟡 Low</td>
+<td>❌ Hardware-generation limit, unfixable</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Net result:</strong> NPU path abandoned entirely. The Ollama-on-iGPU pipeline
+(<code>news_prefilter.py</code>, Radeon 780M via Vulkan) remains the correct and only
+viable local-LLM setup on this hardware, and was left untouched throughout.</p>
 <hr />
-<h2 id="final-open-ports">Final open ports</h2>
+<h2 id="cleanup">Cleanup</h2>
+<p>Since the NPU path has no path forward on this hardware, everything installed
+specifically for it was removed to reclaim disk space:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">conda</span> <span class="n">env</span> <span class="n">remove</span> <span class="n">-n</span> <span class="n">ryzen-ai</span><span class="p">-</span><span class="n">1</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">0</span> <span class="n">-y</span>          <span class="c"># ~2-3GB</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">Remove-Item</span> <span class="s2">"C:\Program Files\RyzenAI"</span> <span class="n">-Recurse</span> <span class="n">-Force</span>   <span class="c"># 6.05GB, required admin elevation</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">Remove-Item</span> <span class="s2">"C:\Users\jadek\Downloads\ryzen-ai-npu"</span> <span class="n">-Recurse</span> <span class="n">-Force</span>  <span class="c"># ~3.5GB installer + driver zip</span>
+</span></code></pre></div>
+<p>Kept installed: Visual Studio 2022, CMake, Miniforge — general-purpose dev
+tools unrelated to Ryzen AI specifically, no reason to remove them.</p>
+<hr />
+<h2 id="timeline">Timeline</h2>
 <table>
 <thead>
 <tr>
-<th>Port</th>
-<th>Service</th>
-<th>Accessible from</th>
+<th>Time</th>
+<th>Event</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>127.0.0.1:8080</code></td>
-<td>axon app (Docker)</td>
-<td>localhost only</td>
+<td>~02:20</td>
+<td>Ollama + iGPU pipeline set up and verified working (<code>100% GPU</code>)</td>
 </tr>
 <tr>
-<td><code>127.0.0.1:8090</code></td>
-<td>axon-prod (Docker)</td>
-<td>localhost only</td>
+<td>~02:45</td>
+<td>Asked whether the NPU could run the same workload</td>
 </tr>
 <tr>
-<td><code>127.0.0.1:20241</code></td>
-<td>cloudflared metrics</td>
-<td>localhost only</td>
+<td>~02:50</td>
+<td>Confirmed hardware: Ryzen 7 260 = Hawk Point = XDNA1, 16 TOPS</td>
 </tr>
 <tr>
-<td><code>0.0.0.0:22</code></td>
-<td>SSH</td>
-<td>anywhere, rate-limited</td>
+<td>~02:55</td>
+<td>Lemonade SDK ruled out — requires XDNA2</td>
 </tr>
 <tr>
-<td><code>*:3000</code></td>
-<td>Next.js profile site</td>
-<td>LAN + Cloudflare Tunnel</td>
+<td>~03:00</td>
+<td>Copilot+ PC ruled out — needs 40+ TOPS</td>
 </tr>
 <tr>
-<td><code>*:3001</code></td>
-<td>Uptime Kuma</td>
-<td>LAN + Cloudflare Tunnel</td>
+<td>~03:00–03:15</td>
+<td>Verified Ryzen AI Software supports Hawk Point on paper; installed VS2022, CMake, Miniforge</td>
+</tr>
+<tr>
+<td>~03:19–03:29</td>
+<td>Four failed installer attempts, all "Conda not found," despite conda working standalone</td>
+</tr>
+<tr>
+<td>~03:18</td>
+<td>First explorer.exe restart — not sufficient</td>
+</tr>
+<tr>
+<td>~03:2x</td>
+<td>First full system restart — still not sufficient (installer runs elevated, needs System PATH)</td>
+</tr>
+<tr>
+<td>~03:24</td>
+<td>Root cause found: System PATH missing conda, elevated process can't see User PATH</td>
+</tr>
+<tr>
+<td>~03:2x</td>
+<td>Manually added conda to System PATH via <code>sysdm.cpl</code>, second full restart</td>
+</tr>
+<tr>
+<td>~03:30–03:40</td>
+<td>Installer completed successfully end to end</td>
+</tr>
+<tr>
+<td>~03:42</td>
+<td><code>quicktest.py</code> ran but logged <code>Failed to open xclbin</code> — missing firmware file</td>
+</tr>
+<tr>
+<td>~03:45</td>
+<td>Found AMD release notes: Hawk Point limited to CNN INT8, no LLM support at all</td>
+</tr>
+<tr>
+<td>~03:46</td>
+<td>Decision: abandon NPU path, keep iGPU pipeline as-is</td>
+</tr>
+<tr>
+<td>~03:47</td>
+<td>Cleaned up ~9GB of NPU-specific installs</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="cloudflare-free-tier-remaining-steps">Cloudflare free tier — remaining steps</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">1. Zero Trust Access</label><label for="__tabbed_1_2">2. SSH via browser</label><label for="__tabbed_1_3">3. Bot Fight Mode</label><label for="__tabbed_1_4">4. Harden SSL</label><label for="__tabbed_1_5">5. Security Level</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>Protect all tunnel apps with an auth wall. Free for up to 50 users.</p>
-<ol>
-<li><a href="https://one.dash.cloudflare.com">one.dash.cloudflare.com</a> → <strong>Access → Applications → Add → Self-hosted</strong></li>
-<li>Set each tunnel hostname</li>
-<li>Policy: Allow by email, login method: One-time PIN</li>
-</ol>
-</div>
-<div class="tabbed-block">
-<p>On the Pi:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cloudflared<span class="w"> </span>access<span class="w"> </span>ssh-gen<span class="w"> </span>--hostname<span class="w"> </span>ssh.***.org
-</span></code></pre></div>
-Dashboard: <strong>Access → Applications → Add → SSH</strong></p>
-<p>SSH config on any machine:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Host raspi-remote
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  HostName ssh.***.org
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  User ***
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ProxyCommand cloudflared access ssh --hostname %h
-</span></code></pre></div></p>
-</div>
-<div class="tabbed-block">
-<p><strong>Security → Bots → Bot Fight Mode → ON</strong></p>
-<p>Blocks known scrapers and malicious bots for free.</p>
-</div>
-<div class="tabbed-block">
-<p><strong>SSL/TLS → Edge Certificates:</strong></p>
-<ul>
-<li>Always Use HTTPS → ON</li>
-<li>HSTS → Enable (<code>max-age=31536000</code>, include subdomains)</li>
-<li>Minimum TLS Version → TLS 1.2</li>
-</ul>
-</div>
-<div class="tabbed-block">
-<p><strong>Security → Settings → Security Level → Medium</strong></p>
-<p>Challenges Tor exits and known attacker IPs with a CAPTCHA.</p>
-</div>
-</div>
-</div>
 
 
 
@@ -1519,7 +1367,7 @@ Dashboard: <strong>Access → Applications → Add → SSH</strong></p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../2026-08-19-ryzen-npu-llm-dead-end/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2026-08-19 · AMD NPU Hardware Dead End">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Incidents">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1529,20 +1377,20 @@ Dashboard: <strong>Access → Applications → Add → SSH</strong></p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                2026-08-19 · AMD NPU Hardware Dead End
+                Incidents
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../runbooks/" class="md-footer__link md-footer__link--next" aria-label="Next: Runbooks">
+          <a href="../2026-06-04-raspi-fan-security-cleanup/" class="md-footer__link md-footer__link--next" aria-label="Next: 2026-06-04 · Pi Fan &amp; Security Cleanup">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Runbooks
+                2026-06-04 · Pi Fan & Security Cleanup
               </div>
             </div>
             <div class="md-footer__button md-icon">

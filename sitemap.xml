@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://suphakin-th.github.io/ops-runbooks/</loc>
-         <lastmod>2026-06-03</lastmod>
+         <lastmod>2026-08-18</lastmod>
     </url>
     <url>
          <loc>https://suphakin-th.github.io/ops-runbooks/tags/</loc>
-         <lastmod>2026-06-03</lastmod>
+         <lastmod>2026-08-18</lastmod>
     </url>
     <url>
          <loc>https://suphakin-th.github.io/ops-runbooks/incidents/</loc>
-         <lastmod>2026-06-03</lastmod>
+         <lastmod>2026-08-18</lastmod>
     </url>
     <url>
          <loc>https://suphakin-th.github.io/ops-runbooks/incidents/2026-06-04-raspi-fan-security-cleanup/</loc>
-         <lastmod>2026-06-03</lastmod>
+         <lastmod>2026-08-18</lastmod>
+    </url>
+    <url>
+         <loc>https://suphakin-th.github.io/ops-runbooks/incidents/2026-08-19-ryzen-npu-llm-dead-end/</loc>
+         <lastmod>2026-08-18</lastmod>
     </url>
     <url>
          <loc>https://suphakin-th.github.io/ops-runbooks/runbooks/</loc>
-         <lastmod>2026-06-03</lastmod>
+         <lastmod>2026-08-18</lastmod>
     </url>
 </urlset>
